@@ -18,6 +18,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
+import { DeleteConfirmationDialog } from "./delete-confirmation-dialog";
 
 interface Article {
   id: number;
@@ -55,6 +57,8 @@ export function ArticlesTable({ currentPage }: ArticlesTableProps) {
   const [articles] = useState<Article[]>(() =>
     generateMockArticles(currentPage, ARTICLES_PER_PAGE)
   );
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [articleToDelete, setArticleToDelete] = useState<number | null>(null);
 
   const totalPages = Math.ceil(TOTAL_ARTICLES / ARTICLES_PER_PAGE);
 
@@ -64,8 +68,23 @@ export function ArticlesTable({ currentPage }: ArticlesTableProps) {
   };
 
   const handleDelete = (articleId: number) => {
-    console.log("Delete article:", articleId);
-    // TODO: Implement delete functionality
+    setArticleToDelete(articleId);
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (articleToDelete) {
+      console.log("Deleting article:", articleToDelete);
+      // TODO: Implement actual delete functionality here
+      toast.success("Article deleted successfully");
+      setDeleteModalOpen(false);
+      setArticleToDelete(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setDeleteModalOpen(false);
+    setArticleToDelete(null);
   };
 
   const generatePageUrl = (page: number) => {
@@ -235,6 +254,13 @@ export function ArticlesTable({ currentPage }: ArticlesTableProps) {
       <div className="flex justify-end items-center space-x-2">
         {renderPagination()}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationDialog
+        isOpen={deleteModalOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }
