@@ -20,7 +20,7 @@ export const MOCK_TAGS = [
 export const FORM_VALIDATION_MESSAGES = {
   TITLE_REQUIRED: "Title is required",
   BODY_REQUIRED: "Body is required",
-  ARTICLE_CREATED: "Article created successfully!",
+  ARTICLE_CREATED: "Well Done! Article created successfully",
 } as const;
 
 export const FORM_FIELDS = {

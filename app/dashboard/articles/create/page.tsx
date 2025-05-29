@@ -1,6 +1,8 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { FormField } from "./components/form-field";
 import { TagSelector } from "./components/tag-selector";
@@ -57,6 +59,7 @@ async function createArticle(
 export default function CreateArticlePage() {
   const [state, formAction, isPending] = useActionState(createArticle, {});
   const formRef = useRef<HTMLFormElement>(null);
+  const router = useRouter();
 
   // Client-side validation state
   const [clientErrors, setClientErrors] = useState<{
@@ -109,8 +112,10 @@ export default function CreateArticlePage() {
       formRef.current.reset();
       resetSelection();
       setClientErrors({}); // Clear client errors on success
+      toast.success(FORM_VALIDATION_MESSAGES.ARTICLE_CREATED);
+      router.push("/dashboard/articles");
     }
-  }, [state.success, resetSelection]);
+  }, [state.success, resetSelection, router]);
 
   // Clear client errors when server validation succeeds or fails
   useEffect(() => {
@@ -157,6 +162,19 @@ export default function CreateArticlePage() {
               error={clientErrors.body || state.fieldErrors?.body}
             />
 
+            {/* Tags on Mobile - shown before submit button */}
+            <div className="lg:hidden">
+              <TagSelector
+                selectedTags={selectedTags}
+                availableTags={allTags}
+                newTag={newTag}
+                onTagToggle={handleTagToggle}
+                onNewTagChange={handleNewTagChange}
+                onAddNewTag={handleAddNewTag}
+                isDisabled={isPending}
+              />
+            </div>
+
             {/* Submit Button */}
             <div>
               <SubmitButton isLoading={isPending}>Submit</SubmitButton>
@@ -172,24 +190,11 @@ export default function CreateArticlePage() {
                 <p className="text-sm text-red-600">{state.error}</p>
               </div>
             )}
-
-            {/* Success Message */}
-            {state.success && (
-              <div
-                className="p-3 bg-green-50 border border-green-200 rounded-md"
-                role="status"
-                aria-live="polite"
-              >
-                <p className="text-sm text-green-600">
-                  {FORM_VALIDATION_MESSAGES.ARTICLE_CREATED}
-                </p>
-              </div>
-            )}
           </form>
         </section>
 
-        {/* Tags Sidebar */}
-        <aside aria-label="Tag selection">
+        {/* Tags Sidebar - Desktop only */}
+        <aside aria-label="Tag selection" className="hidden lg:block">
           <TagSelector
             selectedTags={selectedTags}
             availableTags={allTags}
