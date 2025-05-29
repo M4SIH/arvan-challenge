@@ -6,6 +6,7 @@ interface User {
   id: string;
   name: string;
   email: string;
+  password: string;
 }
 
 interface AuthContextType {
@@ -48,16 +49,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // Simulate API call - replace with actual authentication logic
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Mock user data - replace with actual API response
       const userData: User = {
         id: "1",
-        name: "John Doe", // This would come from the signup form or API
+        name: email,
         email: email,
+        password,
       };
 
       setUser(userData);
       localStorage.setItem("user", JSON.stringify(userData));
-    } catch (error) {
+    } catch {
       throw new Error("Login failed");
     } finally {
       setIsLoading(false);

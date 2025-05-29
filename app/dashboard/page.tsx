@@ -80,7 +80,7 @@ export default function DashboardPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">
-          Welcome to your dashboard. Here's an overview of your data.
+          {"Welcome to your dashboard. Here's an overview of your data."}
         </p>
       </div>
 
