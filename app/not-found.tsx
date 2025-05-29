@@ -21,7 +21,7 @@ export default function NotFound() {
             </Link>
             <div className="text-sm">
               <Link
-                href="/dashboard"
+                href="/dashboard/articles"
                 className="text-indigo-600 hover:text-indigo-500 mx-2"
               >
                 Dashboard

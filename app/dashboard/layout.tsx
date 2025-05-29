@@ -1,38 +1,24 @@
-"use client";
-
-import { useAuth } from "@/lib/auth-context";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense } from "react";
 import { SidebarWrapper } from "./components/sidebar-wrapper";
+import { getUser } from "@/lib/auth-server";
+import { redirect } from "next/navigation";
+import { DashboardLoadingSkeleton } from "./components/dashboard-loading-skeleton";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user, isLoading } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.push("/login");
-    }
-  }, [user, isLoading, router]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-          <p className="mt-2 text-sm text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  // Server-side authentication check
+  const user = await getUser();
 
   if (!user) {
-    return null; // Will redirect in useEffect
+    redirect("/login");
   }
 
-  return <SidebarWrapper>{children}</SidebarWrapper>;
+  return (
+    <Suspense fallback={<DashboardLoadingSkeleton />}>
+      <SidebarWrapper user={user}>{children}</SidebarWrapper>
+    </Suspense>
+  );
 }

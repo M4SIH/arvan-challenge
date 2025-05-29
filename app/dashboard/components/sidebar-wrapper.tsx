@@ -21,19 +21,23 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
 import { mainNavigationItems } from "../config/navigation";
-import { useAuth } from "@/lib/auth-context";
+import { User } from "@/lib/auth-server";
+import { logoutAction } from "@/lib/auth-actions";
+import { useTransition } from "react";
 
 interface SidebarWrapperProps {
   children: React.ReactNode;
+  user: User;
 }
 
-export function SidebarWrapper({ children }: SidebarWrapperProps) {
-  const { user, logout } = useAuth();
+export function SidebarWrapper({ children, user }: SidebarWrapperProps) {
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
   const handleLogout = () => {
-    logout();
-    window.location.href = "/login";
+    startTransition(() => {
+      logoutAction();
+    });
   };
 
   const isActive = (itemUrl: string) => {
@@ -134,9 +138,10 @@ export function SidebarWrapper({ children }: SidebarWrapperProps) {
                 variant="outline"
                 size="sm"
                 onClick={handleLogout}
+                disabled={isPending}
                 className="text-sm"
               >
-                Log out
+                {isPending ? "Logging out..." : "Log out"}
               </Button>
             </div>
           </header>

@@ -4,6 +4,7 @@ import "./globals.css";
 import { ErrorBoundary } from "./components/error-boundary";
 import { AuthProvider } from "@/lib/auth-context";
 import { Toaster } from "@/components/ui/sonner";
+import { getUser } from "@/lib/auth-server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,11 +22,13 @@ export const metadata: Metadata = {
     "Modern dashboard application built with Next.js 15 and React 19",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getUser();
+
   return (
     <html lang="en">
       <body
@@ -33,7 +36,7 @@ export default function RootLayout({
         style={{ backgroundColor: "#F0F0F0" }}
       >
         <ErrorBoundary>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider initialUser={user}>{children}</AuthProvider>
         </ErrorBoundary>
         <Toaster />
       </body>
