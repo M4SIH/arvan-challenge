@@ -1,30 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 interface FormData {
+  username: string;
   email: string;
   password: string;
 }
 
 interface FormErrors {
+  username?: string;
   email?: string;
   password?: string;
 }
 
-export default function LoginPage() {
+export default function SignUpPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
+    username: "",
     email: "",
     password: "",
   });
+
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
-  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,6 +47,10 @@ export default function LoginPage() {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
+    if (!formData.username.trim()) {
+      newErrors.username = "Required field";
+    }
+
     if (!formData.email.trim()) {
       newErrors.email = "Required field";
     }
@@ -57,7 +63,7 @@ export default function LoginPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -67,13 +73,43 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      await login(formData.email, formData.password);
-      toast.success("Successfully signed in!");
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Handle specific error cases
+        if (response.status === 409) {
+          toast.error("Username or email already exists");
+        } else if (response.status === 400) {
+          toast.error(data.message || "Invalid form data");
+        } else {
+          toast.error(data.message || "Registration failed");
+        }
+        return;
+      }
+
+      // Success
+      toast.success("Account created successfully!");
+
+      // Reset form
+      setFormData({
+        username: "",
+        email: "",
+        password: "",
+      });
+
+      // Redirect to dashboard
       router.push("/dashboard/articles");
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Invalid email or password";
-      toast.error(errorMessage);
+      console.error("Registration error:", error);
+      toast.error("Network error. Please check your connection and try again.");
     } finally {
       setIsLoading(false);
     }
@@ -84,10 +120,36 @@ export default function LoginPage() {
       <div className="max-w-md w-full">
         <div className="bg-white rounded-lg shadow-md p-8 space-y-6">
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900">Sign in</h2>
+            <h2 className="text-2xl font-semibold text-gray-900">Sign up</h2>
           </div>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Username
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                value={formData.username}
+                onChange={handleInputChange}
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                  errors.username
+                    ? "border-red-300 focus:ring-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:ring-teal-500 focus:border-teal-500"
+                }`}
+                placeholder="sample text"
+              />
+              {errors.username && (
+                <p className="mt-1 text-sm text-red-600">{errors.username}</p>
+              )}
+            </div>
+
             <div>
               <label
                 htmlFor="email"
@@ -125,7 +187,7 @@ export default function LoginPage() {
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="current-password"
+                autoComplete="new-password"
                 value={formData.password}
                 onChange={handleInputChange}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-sm ${
@@ -144,21 +206,21 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-teal-600 hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
               >
-                {isLoading ? "Signing in..." : "Sign in"}
+                {isLoading ? "Creating account..." : "Sign up"}
               </button>
             </div>
           </form>
 
           <div className="text-center pt-2">
             <p className="text-sm text-gray-600">
-              Don&apos;t have an account?
+              Have an account?
               <Link
-                href="/register"
+                href="/login"
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
-                Sign up now
+                Sign in
               </Link>
             </p>
           </div>
