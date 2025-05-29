@@ -31,9 +31,6 @@ export default async function ArticlesPageWithNumber({ params }: Props) {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">All Posts</h1>
-        <p className="text-muted-foreground">
-          Manage and view all your articles.
-        </p>
       </div>
 
       <ArticlesTable currentPage={currentPage} />

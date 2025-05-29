@@ -232,7 +232,7 @@ export function ArticlesTable({ currentPage }: ArticlesTableProps) {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center space-x-2">
+      <div className="flex justify-end items-center space-x-2">
         {renderPagination()}
       </div>
     </div>

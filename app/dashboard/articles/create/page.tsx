@@ -120,94 +120,86 @@ export default function CreateArticlePage() {
   }, [state.fieldErrors, state.success]);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          {/* Header */}
-          <header className="p-6 border-b border-gray-200">
-            <h1 className="text-2xl font-semibold text-gray-900">
-              New article
-            </h1>
-            <p className="mt-2 text-sm text-gray-600">
-              Create a new article for your blog
-            </p>
-          </header>
+    <div className="bg-white ">
+      {/* Header */}
+      <header className="pb-6 mb-6 border-b border-gray-200">
+        <h1 className="text-2xl font-semibold text-gray-900">New article</h1>
+        <p className="mt-2 text-sm text-gray-600">
+          Create a new article for your blog
+        </p>
+      </header>
 
-          {/* Content */}
-          <div className="p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Main Form */}
-              <section className="lg:col-span-2" aria-label="Article form">
-                <form
-                  ref={formRef}
-                  action={handleFormAction}
-                  className="space-y-6"
-                  noValidate
-                >
-                  {/* Hidden inputs for selected tags */}
-                  {Array.from(selectedTags).map((tag) => (
-                    <input key={tag} type="hidden" name="tags" value={tag} />
-                  ))}
+      {/* Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Form */}
+        <section className="lg:col-span-2" aria-label="Article form">
+          <form
+            ref={formRef}
+            action={handleFormAction}
+            className="space-y-6"
+            noValidate
+          >
+            {/* Hidden inputs for selected tags */}
+            {Array.from(selectedTags).map((tag) => (
+              <input key={tag} type="hidden" name="tags" value={tag} />
+            ))}
 
-                  {/* Form Fields */}
-                  <FormField
-                    {...FORM_FIELDS.TITLE}
-                    error={clientErrors.title || state.fieldErrors?.title}
-                  />
+            {/* Form Fields */}
+            <FormField
+              {...FORM_FIELDS.TITLE}
+              error={clientErrors.title || state.fieldErrors?.title}
+            />
 
-                  <FormField {...FORM_FIELDS.DESCRIPTION} />
+            <FormField {...FORM_FIELDS.DESCRIPTION} />
 
-                  <FormField
-                    {...FORM_FIELDS.BODY}
-                    error={clientErrors.body || state.fieldErrors?.body}
-                  />
+            <FormField
+              {...FORM_FIELDS.BODY}
+              error={clientErrors.body || state.fieldErrors?.body}
+            />
 
-                  {/* Submit Button */}
-                  <div>
-                    <SubmitButton isLoading={isPending}>Submit</SubmitButton>
-                  </div>
-
-                  {/* General Error Messages */}
-                  {state.error && (
-                    <div
-                      className="p-3 bg-red-50 border border-red-200 rounded-md"
-                      role="alert"
-                      aria-live="polite"
-                    >
-                      <p className="text-sm text-red-600">{state.error}</p>
-                    </div>
-                  )}
-
-                  {/* Success Message */}
-                  {state.success && (
-                    <div
-                      className="p-3 bg-green-50 border border-green-200 rounded-md"
-                      role="status"
-                      aria-live="polite"
-                    >
-                      <p className="text-sm text-green-600">
-                        {FORM_VALIDATION_MESSAGES.ARTICLE_CREATED}
-                      </p>
-                    </div>
-                  )}
-                </form>
-              </section>
-
-              {/* Tags Sidebar */}
-              <aside aria-label="Tag selection">
-                <TagSelector
-                  selectedTags={selectedTags}
-                  availableTags={allTags}
-                  newTag={newTag}
-                  onTagToggle={handleTagToggle}
-                  onNewTagChange={handleNewTagChange}
-                  onAddNewTag={handleAddNewTag}
-                  isDisabled={isPending}
-                />
-              </aside>
+            {/* Submit Button */}
+            <div>
+              <SubmitButton isLoading={isPending}>Submit</SubmitButton>
             </div>
-          </div>
-        </div>
+
+            {/* General Error Messages */}
+            {state.error && (
+              <div
+                className="p-3 bg-red-50 border border-red-200 rounded-md"
+                role="alert"
+                aria-live="polite"
+              >
+                <p className="text-sm text-red-600">{state.error}</p>
+              </div>
+            )}
+
+            {/* Success Message */}
+            {state.success && (
+              <div
+                className="p-3 bg-green-50 border border-green-200 rounded-md"
+                role="status"
+                aria-live="polite"
+              >
+                <p className="text-sm text-green-600">
+                  {FORM_VALIDATION_MESSAGES.ARTICLE_CREATED}
+                </p>
+              </div>
+            )}
+          </form>
+        </section>
+
+        {/* Tags Sidebar */}
+        <aside aria-label="Tag selection">
+          <TagSelector
+            selectedTags={selectedTags}
+            availableTags={allTags}
+            newTag={newTag}
+            onTagToggle={handleTagToggle}
+            onNewTagChange={handleNewTagChange}
+            onAddNewTag={handleAddNewTag}
+            isDisabled={isPending}
+          />
+        </aside>
       </div>
     </div>
   );

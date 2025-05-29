@@ -30,6 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{ backgroundColor: "#F0F0F0" }}
       >
         <ErrorBoundary>
           <AuthProvider>{children}</AuthProvider>

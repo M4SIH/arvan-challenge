@@ -121,6 +121,32 @@
   }
 }
 
+/* Sidebar Active State Styles */
+@layer components {
+  .sidebar-menu-active {
+    @apply bg-primary/10 text-primary  border-primary relative;
+  }
+
+  .sidebar-menu-active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: hsl(var(--primary));
+    border-radius: 0 2px 2px 0;
+  }
+
+  .sidebar-menu-active .sidebar-icon {
+    @apply text-primary;
+  }
+
+  .sidebar-menu-active span {
+    @apply font-semibold text-primary;
+  }
+}
+
 /* Custom Toast Styles */
 @layer utilities {
   .toaster [data-sonner-toaster] {

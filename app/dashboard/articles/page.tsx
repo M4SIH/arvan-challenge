@@ -23,12 +23,11 @@ export default async function ArticlesPage({ searchParams }: Props) {
   const { ArticlesTable } = await import("./components/articles-table");
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6  border-gray-200">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">All Posts</h1>
-        <p className="text-muted-foreground">
-          Manage and view all your articles.
-        </p>
+        <h1 className="text-3xl border-b pb-4 font-bold tracking-tight">
+          All Posts
+        </h1>
       </div>
 
       <ArticlesTable currentPage={1} />
