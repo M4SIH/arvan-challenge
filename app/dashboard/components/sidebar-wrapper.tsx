@@ -118,7 +118,7 @@ export function SidebarWrapper({ children, user }: SidebarWrapperProps) {
           </SidebarFooter>
         </Sidebar>
         <SidebarInset className="bg-[#F0F0F0]">
-          <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-6 border-b transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-white">
+          <header className="flex h-16 shrink-0 items-center gap-2 px-6 border-b transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-white relative">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mr-2 h-4" />
@@ -127,13 +127,13 @@ export function SidebarWrapper({ children, user }: SidebarWrapperProps) {
               </span>
             </div>
 
-            <div className="flex-1 text-center">
-              <h1 className="text-sm font-semibold bg-[#F0F0F0] py-2 px-3 rounded-lg inline-block">
+            <div className="absolute left-1/2 transform -translate-x-1/2">
+              <h1 className="text-sm font-semibold bg-[#F0F0F0] py-2 px-3 rounded-lg whitespace-nowrap">
                 Arvan Challenge
               </h1>
             </div>
 
-            <div>
+            <div className="ml-auto">
               <Button
                 variant="outline"
                 size="sm"
