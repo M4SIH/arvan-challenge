@@ -9,7 +9,7 @@ export const mainNavigationItems: MenuItem[] = [
   },
   {
     title: "New Articles",
-    url: "/dashboard/articles/new",
+    url: "/dashboard/articles/create",
     icon: Plus,
   },
 ];

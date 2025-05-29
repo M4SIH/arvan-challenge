@@ -1,30 +1,22 @@
 "use client";
 
-import { useState, useActionState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 
-// Mock tags data (replace with API call later)
-const MOCK_TAGS = [
-  "JavaScript",
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Web Development",
-  "Frontend",
-  "Backend",
-  "Node.js",
-  "CSS",
-  "HTML",
-  "Python",
-  "Database",
-  "API",
-  "Authentication",
-  "Testing",
-].sort();
+import { FormField } from "./components/form-field";
+import { TagSelector } from "./components/tag-selector";
+import { SubmitButton } from "./components/submit-button";
+import { useTagManagement } from "./hooks/use-tag-management";
+import {
+  MOCK_TAGS,
+  FORM_VALIDATION_MESSAGES,
+  FORM_FIELDS,
+} from "./lib/constants";
+import type { CreateArticleFormData, FormState } from "./types";
 
 async function createArticle(
-  prevState: { error?: string; success?: boolean },
+  prevState: FormState,
   formData: FormData
-): Promise<{ error?: string; success?: boolean }> {
+): Promise<FormState> {
   // Simulate API call delay
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -33,217 +25,186 @@ async function createArticle(
   const body = formData.get("body") as string;
   const tags = formData.getAll("tags") as string[];
 
+  const fieldErrors: FormState["fieldErrors"] = {};
+
+  // Validate required fields
   if (!title?.trim()) {
-    return { error: "Title is required" };
+    fieldErrors.title = FORM_VALIDATION_MESSAGES.TITLE_REQUIRED;
   }
 
   if (!body?.trim()) {
-    return { error: "Body is required" };
+    fieldErrors.body = FORM_VALIDATION_MESSAGES.BODY_REQUIRED;
   }
 
-  // Simulate API call
-  console.log("Creating article:", { title, description, body, tags });
+  // Return field errors if any
+  if (Object.keys(fieldErrors).length > 0) {
+    return { fieldErrors };
+  }
+
+  // Create article data
+  const articleData: CreateArticleFormData = {
+    title: title.trim(),
+    description: description?.trim() || "",
+    body: body.trim(),
+    tags,
+  };
+
+  console.log("Creating article:", articleData);
 
   return { success: true };
 }
 
 export default function CreateArticlePage() {
   const [state, formAction, isPending] = useActionState(createArticle, {});
-  const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
-  const [newTag, setNewTag] = useState("");
-  const [allTags, setAllTags] = useState<string[]>(MOCK_TAGS);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleTagToggle = (tag: string) => {
-    const newSelectedTags = new Set(selectedTags);
-    if (newSelectedTags.has(tag)) {
-      newSelectedTags.delete(tag);
-    } else {
-      newSelectedTags.add(tag);
+  // Client-side validation state
+  const [clientErrors, setClientErrors] = useState<{
+    title?: string;
+    body?: string;
+  }>({});
+
+  const {
+    selectedTags,
+    allTags,
+    newTag,
+    handleTagToggle,
+    handleNewTagChange,
+    handleAddNewTag,
+    resetSelection,
+  } = useTagManagement({ initialTags: MOCK_TAGS });
+
+  // Client-side validation function
+  const validateForm = (formData: FormData): boolean => {
+    const title = formData.get("title") as string;
+    const body = formData.get("body") as string;
+    const errors: typeof clientErrors = {};
+
+    if (!title?.trim()) {
+      errors.title = FORM_VALIDATION_MESSAGES.TITLE_REQUIRED;
     }
-    setSelectedTags(newSelectedTags);
+
+    if (!body?.trim()) {
+      errors.body = FORM_VALIDATION_MESSAGES.BODY_REQUIRED;
+    }
+
+    setClientErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
-  const handleAddNewTag = () => {
-    if (newTag.trim() && !allTags.includes(newTag.trim())) {
-      const trimmedTag = newTag.trim();
-      const updatedTags = [...allTags, trimmedTag].sort();
-      setAllTags(updatedTags);
-      setSelectedTags(new Set([...selectedTags, trimmedTag]));
-      setNewTag("");
+  // Enhanced form action with client-side validation
+  const handleFormAction = (formData: FormData) => {
+    // Clear previous client errors
+    setClientErrors({});
+
+    // Validate form before submission
+    if (validateForm(formData)) {
+      formAction(formData);
     }
   };
 
-  const handleNewTagKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleAddNewTag();
+  // Reset form when successfully submitted
+  useEffect(() => {
+    if (state.success && formRef.current) {
+      formRef.current.reset();
+      resetSelection();
+      setClientErrors({}); // Clear client errors on success
     }
-  };
+  }, [state.success, resetSelection]);
+
+  // Clear client errors when server validation succeeds or fails
+  useEffect(() => {
+    if (state.fieldErrors || state.success) {
+      setClientErrors({});
+    }
+  }, [state.fieldErrors, state.success]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div className="p-6 border-b border-gray-200">
+          {/* Header */}
+          <header className="p-6 border-b border-gray-200">
             <h1 className="text-2xl font-semibold text-gray-900">
               New article
             </h1>
-          </div>
+            <p className="mt-2 text-sm text-gray-600">
+              Create a new article for your blog
+            </p>
+          </header>
 
+          {/* Content */}
           <div className="p-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Form */}
-              <div className="lg:col-span-2">
-                <form action={formAction} className="space-y-6">
+              <section className="lg:col-span-2" aria-label="Article form">
+                <form
+                  ref={formRef}
+                  action={handleFormAction}
+                  className="space-y-6"
+                  noValidate
+                >
                   {/* Hidden inputs for selected tags */}
                   {Array.from(selectedTags).map((tag) => (
                     <input key={tag} type="hidden" name="tags" value={tag} />
                   ))}
 
-                  {/* Title Field */}
-                  <div>
-                    <label
-                      htmlFor="title"
-                      className="block text-sm font-medium text-gray-900 mb-2"
-                    >
-                      Title
-                    </label>
-                    <input
-                      id="title"
-                      name="title"
-                      type="text"
-                      required
-                      className="w-full px-3 py-2 border border-gray-300  rounded-md focus:outline-none  text-gray-900 placeholder-gray-500"
-                      placeholder="Title"
-                    />
-                  </div>
+                  {/* Form Fields */}
+                  <FormField
+                    {...FORM_FIELDS.TITLE}
+                    error={clientErrors.title || state.fieldErrors?.title}
+                  />
 
-                  {/* Description Field */}
-                  <div>
-                    <label
-                      htmlFor="description"
-                      className="block text-sm font-medium text-gray-900 mb-2"
-                    >
-                      Description
-                    </label>
-                    <textarea
-                      id="description"
-                      name="description"
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none  text-gray-900 placeholder-gray-500 resize-none"
-                      placeholder="Description"
-                    />
-                  </div>
+                  <FormField {...FORM_FIELDS.DESCRIPTION} />
 
-                  {/* Body Field */}
-                  <div>
-                    <label
-                      htmlFor="body"
-                      className="block text-sm font-medium text-gray-900 mb-2"
-                    >
-                      Body
-                    </label>
-                    <textarea
-                      id="body"
-                      name="body"
-                      rows={12}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none  text-gray-900 placeholder-gray-500 resize-none"
-                      placeholder="Write your article content here..."
-                    />
-                  </div>
+                  <FormField
+                    {...FORM_FIELDS.BODY}
+                    error={clientErrors.body || state.fieldErrors?.body}
+                  />
 
                   {/* Submit Button */}
                   <div>
-                    <button
-                      type="submit"
-                      disabled={isPending}
-                      className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    >
-                      {isPending ? (
-                        <>
-                          <svg
-                            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                          Submitting...
-                        </>
-                      ) : (
-                        "Submit"
-                      )}
-                    </button>
+                    <SubmitButton isLoading={isPending}>Submit</SubmitButton>
                   </div>
 
-                  {/* Error/Success Messages */}
+                  {/* General Error Messages */}
                   {state.error && (
-                    <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+                    <div
+                      className="p-3 bg-red-50 border border-red-200 rounded-md"
+                      role="alert"
+                      aria-live="polite"
+                    >
                       <p className="text-sm text-red-600">{state.error}</p>
                     </div>
                   )}
+
+                  {/* Success Message */}
                   {state.success && (
-                    <div className="p-3 bg-green-50 border border-green-200 rounded-md">
+                    <div
+                      className="p-3 bg-green-50 border border-green-200 rounded-md"
+                      role="status"
+                      aria-live="polite"
+                    >
                       <p className="text-sm text-green-600">
-                        Article created successfully!
+                        {FORM_VALIDATION_MESSAGES.ARTICLE_CREATED}
                       </p>
                     </div>
                   )}
                 </form>
-              </div>
+              </section>
 
               {/* Tags Sidebar */}
-              <div className="space-y-6">
-                {/* Tags Section */}
-                <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">
-                    Tags
-                  </h3>
-
-                  {/* Add New Tag */}
-                  <div className="mb-4">
-                    <input
-                      type="text"
-                      value={newTag}
-                      onChange={(e) => setNewTag(e.target.value)}
-                      onKeyPress={handleNewTagKeyPress}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none  text-gray-900 placeholder-gray-500"
-                      placeholder="New tag"
-                    />
-                  </div>
-
-                  <div className="space-y-2 border-gray-300 rounded-md border p-4 max-h-[475px] h-full overflow-y-auto">
-                    {allTags.map((tag) => (
-                      <label
-                        key={tag}
-                        className="flex items-center space-x-2 cursor-pointer"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedTags.has(tag)}
-                          onChange={() => handleTagToggle(tag)}
-                          className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
-                        />
-                        <span className="text-sm text-gray-700">{tag}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <aside aria-label="Tag selection">
+                <TagSelector
+                  selectedTags={selectedTags}
+                  availableTags={allTags}
+                  newTag={newTag}
+                  onTagToggle={handleTagToggle}
+                  onNewTagChange={handleNewTagChange}
+                  onAddNewTag={handleAddNewTag}
+                  isDisabled={isPending}
+                />
+              </aside>
             </div>
           </div>
         </div>

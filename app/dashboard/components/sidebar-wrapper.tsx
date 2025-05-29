@@ -69,7 +69,7 @@ export function SidebarWrapper({ children }: SidebarWrapperProps) {
         </SidebarContent>
         <SidebarFooter>
           <div className="p-4 text-xs text-muted-foreground">
-            © 2024 Arvan Challenge
+            © 2025 Arvan Challenge
           </div>
         </SidebarFooter>
       </Sidebar>
