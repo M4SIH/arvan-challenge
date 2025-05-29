@@ -1,8 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arvan Challenge
 
-## Getting Started
+A modern dashboard application built with Next.js 15, React 19, and TypeScript. This project features a comprehensive article management system with authentication, dark mode support, and a beautiful responsive UI.
 
-First, run the development server:
+## ✨ Features
+
+- 📱 **Responsive Dashboard** - Modern, mobile-first design with sidebar navigation
+- 📝 **Article Management** - Create, view, and manage articles with pagination
+- 🔐 **Authentication System** - Login and registration functionality
+- 🌙 **Dark Mode Support** - Theme switching with `next-themes`
+- 🎨 **Modern UI Components** - Built with Shadcn/UI and Radix UI primitives
+- ⚡ **Performance Optimized** - Turbopack for faster development builds
+- 🎯 **TypeScript** - Full type safety throughout the application
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) with App Router
+- **Frontend**: [React 19](https://react.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **UI Components**: [Shadcn/UI](https://ui.shadcn.com/) with [Radix UI](https://www.radix-ui.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Notifications**: [Sonner](https://sonner.emilkowal.ski/)
+- **Theme**: [next-themes](https://github.com/pacocoursey/next-themes)
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd arvan-challenge
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+3. Run the development server:
 
 ```bash
 npm run dev
@@ -14,23 +63,69 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+arvan-challenge/
+├── app/                    # Next.js App Router
+│   ├── (auth)/            # Authentication routes (login, register)
+│   ├── dashboard/         # Dashboard pages and components
+│   │   ├── articles/      # Article management
+│   │   └── components/    # Dashboard-specific components
+│   ├── api/              # API routes
+│   ├── components/       # Shared components
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx          # Home page
+├── components/           # Reusable UI components
+│   └── ui/              # Shadcn/UI components
+├── hooks/               # Custom React hooks
+├── lib/                 # Utility functions and configurations
+└── public/              # Static assets
+```
 
-## Learn More
+## 🎯 Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` - Start development server with Turbopack
+- `npm run build` - Build the application for production
+- `npm run start` - Start the production server
+- `npm run lint` - Run ESLint for code linting
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎨 UI Components
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project uses a comprehensive set of UI components built with Radix UI primitives and styled with Tailwind CSS:
 
-## Deploy on Vercel
+- **Navigation**: Sidebar, breadcrumbs, dropdown menus
+- **Data Display**: Tables, tooltips, separators
+- **Feedback**: Toasts (Sonner), loading skeletons
+- **Forms**: Input fields, buttons
+- **Layout**: Sheets, dialogs
+
+## 🌙 Theme Support
+
+The application supports both light and dark themes using `next-themes`. The theme can be toggled throughout the application with persistent storage.
+
+## 📱 Responsive Design
+
+The application is fully responsive and optimized for:
+
+- Mobile devices (320px+)
+- Tablets (768px+)
+- Desktop screens (1024px+)
+
+## 🚀 Deployment
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## 📚 Learn More
+
+To learn more about the technologies used in this project:
+
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
+- [React Documentation](https://react.dev/) - Learn about React 19 features
+- [Tailwind CSS](https://tailwindcss.com/docs) - Utility-first CSS framework
+- [Shadcn/UI](https://ui.shadcn.com/) - Beautiful and accessible components
+- [TypeScript](https://www.typescriptlang.org/docs/) - TypeScript documentation
