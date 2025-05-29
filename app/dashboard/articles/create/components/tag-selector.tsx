@@ -1,5 +1,6 @@
 import { memo, useMemo, useCallback } from "react";
 import { TagSelectorProps } from "../types";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const TagSelector = memo(function TagSelector({
   selectedTags,
@@ -77,12 +78,10 @@ const TagSelector = memo(function TagSelector({
               key={name}
               className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors"
             >
-              <input
-                type="checkbox"
+              <Checkbox
                 checked={isSelected}
-                onChange={() => onTagToggle(name)}
+                onCheckedChange={() => onTagToggle(name)}
                 disabled={isDisabled}
-                className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500 disabled:opacity-50"
                 aria-describedby={`tag-${name}-desc`}
               />
               <span
