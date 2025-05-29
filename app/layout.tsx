@@ -34,7 +34,7 @@ export default function RootLayout({
         <ErrorBoundary>
           <AuthProvider>{children}</AuthProvider>
         </ErrorBoundary>
-        <Toaster position="top-center" />
+        <Toaster />
       </body>
     </html>
   );
