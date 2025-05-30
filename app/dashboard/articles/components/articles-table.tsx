@@ -199,7 +199,7 @@ export function ArticlesTable({ currentPage }: ArticlesTableProps) {
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="bg-[#F0F0F0] text-lg font-semibold">
               <TableHead className="w-12">#</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Author</TableHead>
@@ -213,7 +213,7 @@ export function ArticlesTable({ currentPage }: ArticlesTableProps) {
             {articles.map((article) => (
               <TableRow key={article.id}>
                 <TableCell className="font-medium">{article.id}</TableCell>
-                <TableCell>{article.title}</TableCell>
+                <TableCell className="font-medium">{article.title}</TableCell>
                 <TableCell>{article.author}</TableCell>
                 <TableCell>{article.tags.join(", ")}</TableCell>
                 <TableCell>{article.excerpt}</TableCell>
