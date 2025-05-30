@@ -40,7 +40,7 @@ const TagSelector = memo(function TagSelector({
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Tags</h3>
+        <h3 className="text-lg font-medium text-foreground mb-4">Tags</h3>
 
         {/* Add New Tag */}
         <div className="mb-4">
@@ -54,18 +54,18 @@ const TagSelector = memo(function TagSelector({
             onChange={handleTagChange}
             onKeyPress={handleKeyPress}
             disabled={isDisabled}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full px-3 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background text-foreground placeholder:text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             placeholder="New tag"
             aria-describedby="new-tag-help"
           />
-          <p id="new-tag-help" className="mt-1 text-xs text-gray-500">
+          <p id="new-tag-help" className="mt-1 text-xs text-muted-foreground">
             Press Enter to add a new tag
           </p>
         </div>
 
         {/* Tags List */}
         <div
-          className="space-y-2 border-gray-300 rounded-md border p-4 max-h-[475px] h-full overflow-y-auto"
+          className="space-y-2 border-input rounded-md border p-4 max-h-[475px] h-full overflow-y-auto bg-background"
           role="group"
           aria-labelledby="tags-group-label"
         >
@@ -76,7 +76,7 @@ const TagSelector = memo(function TagSelector({
           {memoizedTags.map(({ name, isSelected }) => (
             <label
               key={name}
-              className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors"
+              className="flex items-center space-x-2 cursor-pointer hover:bg-accent/50 p-1 rounded transition-colors"
             >
               <Checkbox
                 checked={isSelected}
@@ -86,7 +86,7 @@ const TagSelector = memo(function TagSelector({
               />
               <span
                 id={`tag-${name}-desc`}
-                className="text-sm text-gray-700 select-none"
+                className="text-sm text-foreground select-none"
               >
                 {name}
               </span>
@@ -94,7 +94,7 @@ const TagSelector = memo(function TagSelector({
           ))}
 
           {availableTags.length === 0 && (
-            <p className="text-sm text-gray-500 text-center py-4">
+            <p className="text-sm text-muted-foreground text-center py-4">
               No tags available. Add a new tag above.
             </p>
           )}

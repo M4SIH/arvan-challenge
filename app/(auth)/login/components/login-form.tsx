@@ -30,7 +30,7 @@ export function LoginForm() {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-foreground mb-1"
         >
           Email
         </label>
@@ -49,7 +49,7 @@ export function LoginForm() {
       <div>
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-foreground mb-1"
         >
           Password
         </label>
@@ -66,11 +66,7 @@ export function LoginForm() {
       </div>
 
       <div className="pt-4">
-        <Button
-          type="submit"
-          disabled={isPending}
-          className="w-full bg-teal-600 hover:bg-teal-700 focus:ring-teal-500"
-        >
+        <Button type="submit" disabled={isPending} className="w-full">
           {isPending ? "Signing in..." : "Sign in"}
         </Button>
       </div>

@@ -45,7 +45,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: #f0f0f0;
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
@@ -156,54 +156,58 @@
   .toaster [data-sonner-toast] {
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
     border-radius: 8px !important;
-    border: 1px solid #e5e7eb !important;
-    background: white !important;
+    border: 1px solid hsl(var(--border)) !important;
+    background: hsl(var(--card)) !important;
     padding: 12px 16px !important;
   }
 
   .toaster [data-sonner-toast][data-type="success"] {
-    background: rgba(240, 253, 244, 0.8) !important;
+    background: hsl(var(--card)) !important;
+    border-color: hsl(142 76% 36%) !important;
   }
 
   .toaster [data-sonner-toast][data-type="error"] {
-    background: rgba(254, 242, 242, 0.8) !important;
+    background: hsl(var(--card)) !important;
+    border-color: hsl(var(--destructive)) !important;
   }
 
   .toaster [data-sonner-toast][data-type="warning"] {
-    background: rgba(255, 251, 235, 0.8) !important;
+    background: hsl(var(--card)) !important;
+    border-color: hsl(38 92% 50%) !important;
   }
 
   .toaster [data-sonner-toast][data-type="info"] {
-    background: rgba(239, 246, 255, 0.8) !important;
+    background: hsl(var(--card)) !important;
+    border-color: hsl(var(--primary)) !important;
   }
 
   .toaster [data-sonner-toast] [data-title] {
-    color: #111827 !important;
+    color: hsl(var(--foreground)) !important;
     font-weight: 500 !important;
     font-size: 14px !important;
     line-height: 1.4 !important;
   }
 
   .toaster [data-sonner-toast] [data-description] {
-    color: #6b7280 !important;
+    color: hsl(var(--muted-foreground)) !important;
     font-size: 14px !important;
     line-height: 1.4 !important;
     margin-top: 2px !important;
   }
 
   .toaster [data-sonner-toast][data-type="success"] [data-title] {
-    color: #15803d !important;
+    color: hsl(142 76% 36%) !important;
   }
 
   .toaster [data-sonner-toast][data-type="error"] [data-title] {
-    color: #dc2626 !important;
+    color: hsl(var(--destructive)) !important;
   }
 
   .toaster [data-sonner-toast][data-type="warning"] [data-title] {
-    color: #d97706 !important;
+    color: hsl(38 92% 50%) !important;
   }
 
   .toaster [data-sonner-toast][data-type="info"] [data-title] {
-    color: #2563eb !important;
+    color: hsl(var(--primary)) !important;
   }
 }

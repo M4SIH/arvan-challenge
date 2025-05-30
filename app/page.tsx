@@ -1,91 +1,40 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <div>
-      <div className="bg-white rounded-lg shadow-sm min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] grid grid-rows-[20px_1fr_20px] items-center justify-items-center">
-        <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-          <Image
-            className="dark:invert"
-            src="/next.svg"
-            alt="Next.js logo"
-            width={180}
-            height={38}
-            priority
+    <div className="min-h-screen bg-[#5DBEAA] relative overflow-hidden flex flex-col items-center justify-center">
+      {/* Pink decorative arrow shape in bottom left */}
+      <div className="absolute bottom-0 left-0 w-96 h-96">
+        <svg viewBox="0 0 400 400" className="w-full h-full" fill="none">
+          <path
+            d="M0 400C0 400 200 350 300 250C400 150 350 50 250 100C150 150 50 250 0 400Z"
+            fill="#E53E3E"
+            opacity="0.9"
           />
-          <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-            <li className="mb-2 tracking-[-.01em]">
-              Welcome to Arvan Challenge - A modern dashboard application built
-              with
-              <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-                Next.js 15 & React 19
-              </code>
-              .
-            </li>
-            <li className="tracking-[-.01em]">
-              Explore the dashboard and authentication features.
-            </li>
-          </ol>
+        </svg>
+      </div>
 
-          <div className="flex gap-4 items-center flex-col sm:flex-row">
-            <Link
-              href="/dashboard/articles"
-              className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            >
-              Go to Dashboard
-            </Link>
-            <Link
-              href="/login"
-              className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            >
-              Sign In
-            </Link>
-          </div>
-        </main>
-        <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
+      {/* Main content */}
+      <div className="text-center z-10 space-y-12">
+        {/* Main heading */}
+        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light tracking-wide">
+          Front-end Developer — چالش
+        </h1>
+
+        {/* ArvanCloud logo */}
+        <div className="flex justify-center">
+          <div className="text-white text-xl font-medium">arvancloud</div>
+        </div>
+
+        {/* Let's go button */}
+        <div className="pt-8">
           <Link
-            className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-            href="/dashboard/articles"
+            href="/register"
+            className="inline-flex items-center justify-center bg-white text-[#5DBEAA] px-8 py-4 rounded-full font-medium text-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg"
           >
-            <Image
-              aria-hidden
-              src="/file.svg"
-              alt="File icon"
-              width={16}
-              height={16}
-            />
-            Dashboard
+            Let&apos;s go
           </Link>
-          <Link
-            className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-            href="/login"
-          >
-            <Image
-              aria-hidden
-              src="/window.svg"
-              alt="Window icon"
-              width={16}
-              height={16}
-            />
-            Authentication
-          </Link>
-          <a
-            className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-            href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              aria-hidden
-              src="/globe.svg"
-              alt="Globe icon"
-              width={16}
-              height={16}
-            />
-            Next.js Documentation →
-          </a>
-        </footer>
+        </div>
       </div>
     </div>
   );

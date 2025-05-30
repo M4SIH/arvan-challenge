@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { FileText } from "lucide-react";
 import { mainNavigationItems } from "../config/navigation";
 import { User } from "@/lib/auth-server";
@@ -123,8 +124,8 @@ function SidebarLayout({ children, user }: SidebarWrapperProps) {
           </div>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="bg-[#F0F0F0]">
-        <header className="flex h-16 shrink-0 items-center gap-2 px-4 sm:px-6 border-b transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-white relative">
+      <SidebarInset className="bg-background">
+        <header className="flex h-16 shrink-0 items-center gap-2 px-4 sm:px-6 border-b border-border transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-card relative">
           <div className="flex items-center gap-2">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
@@ -134,12 +135,13 @@ function SidebarLayout({ children, user }: SidebarWrapperProps) {
           </div>
 
           <div className="absolute left-1/2 transform -translate-x-1/2 max-w-[120px] sm:max-w-none">
-            <h1 className="text-xs sm:text-sm font-semibold bg-[#F0F0F0] py-1.5 px-2 sm:py-2 sm:px-3 rounded-lg whitespace-nowrap">
+            <h1 className="text-xs sm:text-sm font-semibold bg-muted text-foreground py-1.5 px-2 sm:py-2 sm:px-3 rounded-lg whitespace-nowrap">
               Arvan Challenge
             </h1>
           </div>
 
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-2">
+            <ThemeToggle  />
             <Button
               variant="outline"
               size="sm"
@@ -154,7 +156,7 @@ function SidebarLayout({ children, user }: SidebarWrapperProps) {
             </Button>
           </div>
         </header>
-        <div className="flex-1 bg-white rounded-lg m-6 p-6 shadow-sm">
+        <div className="flex-1 bg-card rounded-lg m-6 p-6 shadow-sm">
           {children}
         </div>
       </SidebarInset>

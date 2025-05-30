@@ -4,6 +4,7 @@ import "./globals.css";
 import { ErrorBoundary } from "./components/error-boundary";
 import { AuthProvider } from "@/lib/auth-context";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 import { getUser } from "@/lib/auth-server";
 
 const geistSans = Geist({
@@ -30,15 +31,16 @@ export default async function RootLayout({
   const user = await getUser();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={{ backgroundColor: "#F0F0F0" }}
       >
-        <ErrorBoundary>
-          <AuthProvider initialUser={user}>{children}</AuthProvider>
-        </ErrorBoundary>
-        <Toaster />
+        <ThemeProvider>
+          <ErrorBoundary>
+            <AuthProvider initialUser={user}>{children}</AuthProvider>
+          </ErrorBoundary>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

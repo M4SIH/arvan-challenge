@@ -199,7 +199,7 @@ export function ArticlesTable({ currentPage }: ArticlesTableProps) {
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#F0F0F0] text-lg font-semibold">
+            <TableRow className="bg-muted text-lg font-semibold">
               <TableHead className="w-12">#</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Author</TableHead>

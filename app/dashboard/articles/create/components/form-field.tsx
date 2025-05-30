@@ -12,11 +12,11 @@ const FormField = memo(function FormField({
   className = "",
   error,
 }: FormFieldProps) {
-  const baseClasses = `w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-500 transition-colors ${className}`;
+  const baseClasses = `w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background text-foreground placeholder:text-muted-foreground transition-colors ${className}`;
 
   const borderClasses = error
-    ? "border-red-300 focus:border-red-500"
-    : "border-gray-300 focus:border-blue-500";
+    ? "border-destructive focus:border-destructive"
+    : "border-input focus:border-ring";
 
   const inputClasses = `${baseClasses} ${borderClasses}`;
 
@@ -24,11 +24,11 @@ const FormField = memo(function FormField({
     <div>
       <label
         htmlFor={id}
-        className="block text-sm font-medium text-gray-900 mb-2"
+        className="block text-sm font-medium text-foreground mb-2"
       >
         {label}
         {required && (
-          <span className="text-red-500 ml-1" aria-label="required">
+          <span className="text-destructive ml-1" aria-label="required">
             *
           </span>
         )}
@@ -61,7 +61,7 @@ const FormField = memo(function FormField({
       {error && (
         <p
           id={`${id}-error`}
-          className="mt-1 text-sm text-red-600"
+          className="mt-1 text-sm text-destructive"
           role="alert"
         >
           {error}

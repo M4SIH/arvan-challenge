@@ -118,16 +118,16 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
-        <div className="bg-white rounded-lg shadow-md p-8 space-y-6">
+        <div className="bg-card rounded-lg shadow-md p-8 space-y-6 border">
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900">Sign up</h2>
+            <h2 className="text-2xl font-semibold text-foreground">Sign up</h2>
           </div>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-foreground mb-1"
               >
                 Username
               </label>
@@ -138,22 +138,24 @@ export default function SignUpPage() {
                 autoComplete="username"
                 value={formData.username}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-sm bg-background text-foreground ${
                   errors.username
-                    ? "border-red-300 focus:ring-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:ring-teal-500 focus:border-teal-500"
+                    ? "border-destructive focus:ring-destructive focus:border-destructive"
+                    : "border-input focus:ring-ring focus:border-ring"
                 }`}
-                placeholder="sample text"
+                placeholder="ali parvin"
               />
               {errors.username && (
-                <p className="mt-1 text-sm text-red-600">{errors.username}</p>
+                <p className="mt-1 text-sm text-destructive">
+                  {errors.username}
+                </p>
               )}
             </div>
 
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-foreground mb-1"
               >
                 Email
               </label>
@@ -164,22 +166,22 @@ export default function SignUpPage() {
                 autoComplete="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-sm bg-background text-foreground ${
                   errors.email
-                    ? "border-red-300 focus:ring-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:ring-teal-500 focus:border-teal-500"
+                    ? "border-destructive focus:ring-destructive focus:border-destructive"
+                    : "border-input focus:ring-ring focus:border-ring"
                 }`}
-                placeholder="sample text"
+                placeholder="example@gmail.com"
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                <p className="mt-1 text-sm text-destructive">{errors.email}</p>
               )}
             </div>
 
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-foreground mb-1"
               >
                 Password
               </label>
@@ -190,15 +192,17 @@ export default function SignUpPage() {
                 autoComplete="new-password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-sm bg-background text-foreground ${
                   errors.password
-                    ? "border-red-300 focus:ring-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:ring-teal-500 focus:border-teal-500"
+                    ? "border-destructive focus:ring-destructive focus:border-destructive"
+                    : "border-input focus:ring-ring focus:border-ring"
                 }`}
-                placeholder="sample text"
+                placeholder="********"
               />
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+                <p className="mt-1 text-sm text-destructive">
+                  {errors.password}
+                </p>
               )}
             </div>
 
@@ -206,7 +210,7 @@ export default function SignUpPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-teal-600 hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
+                className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-primary-foreground font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
               >
                 {isLoading ? "Creating account..." : "Sign up"}
               </button>
@@ -214,11 +218,11 @@ export default function SignUpPage() {
           </form>
 
           <div className="text-center pt-2">
-            <p className="text-sm text-gray-600">
-              Have an account?
+            <p className="text-sm text-muted-foreground">
+              Have an account?{" "}
               <Link
                 href="/login"
-                className="font-medium text-blue-600 hover:text-blue-500"
+                className="font-medium text-primary hover:text-primary/80 transition-colors"
               >
                 Sign in
               </Link>

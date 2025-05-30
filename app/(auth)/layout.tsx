@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export const metadata: Metadata = {
   title: "Authentication - Arvan Challenge",
@@ -10,5 +11,12 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
+      {children}
+    </div>
+  );
 }

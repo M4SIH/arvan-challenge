@@ -125,11 +125,11 @@ export default function CreateArticlePage() {
   }, [state.fieldErrors, state.success]);
 
   return (
-    <div className="bg-white ">
+    <div className="bg-card">
       {/* Header */}
-      <header className="pb-6 mb-6 border-b border-gray-200">
-        <h1 className="text-2xl font-semibold text-gray-900">New article</h1>
-        <p className="mt-2 text-sm text-gray-600">
+      <header className="pb-6 mb-6 border-b border-border">
+        <h1 className="text-2xl font-semibold text-foreground">New article</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
           Create a new article for your blog
         </p>
       </header>
@@ -183,11 +183,11 @@ export default function CreateArticlePage() {
             {/* General Error Messages */}
             {state.error && (
               <div
-                className="p-3 bg-red-50 border border-red-200 rounded-md"
+                className="p-3 bg-destructive/10 border border-destructive/20 rounded-md"
                 role="alert"
                 aria-live="polite"
               >
-                <p className="text-sm text-red-600">{state.error}</p>
+                <p className="text-sm text-destructive">{state.error}</p>
               </div>
             )}
           </form>
